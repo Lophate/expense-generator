@@ -81,6 +81,10 @@ body {
   max-width: 58ch;
 }
 
+.hero__actions {
+  margin-top: 0.95rem;
+}
+
 .layout {
   display: grid;
   gap: 1rem;
@@ -253,12 +257,16 @@ button:focus {
 
 .btn,
 .icon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   border: 1px solid var(--line);
   border-radius: 10px;
   background: #fff;
   color: var(--ink-900);
   padding: 0.52rem 0.8rem;
   cursor: pointer;
+  text-decoration: none;
   transition: transform 0.17s ease, box-shadow 0.17s ease, background-color 0.17s ease;
 }
 
@@ -569,9 +577,199 @@ button:focus {
   font-size: 0.8rem;
 }
 
+.sop-shell {
+  width: min(1000px, 94vw);
+  margin: 2.2rem auto 3rem;
+}
+
+.sop-header {
+  background: linear-gradient(145deg, #ffffff 0%, #edf8ff 85%);
+  border: 1px solid var(--line);
+  border-radius: 22px;
+  padding: 1.7rem 1.5rem;
+  box-shadow: var(--shadow);
+}
+
+.sop-header h1 {
+  margin: 0.45rem 0 0.2rem;
+  font-size: clamp(1.5rem, 1.08rem + 1.5vw, 2.15rem);
+}
+
+.sop-header p {
+  margin: 0;
+  color: var(--ink-700);
+}
+
+.sop-header__row {
+  margin-top: 0.95rem;
+  display: flex;
+  gap: 0.65rem;
+  flex-wrap: wrap;
+}
+
+.sop-meta,
+.sop-card {
+  margin-top: 1rem;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  padding: 1rem;
+  box-shadow: var(--shadow);
+}
+
+.sop-meta-grid {
+  display: grid;
+  gap: 0.6rem 1rem;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.sop-meta-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.sop-meta-item dt {
+  font-size: 0.78rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--ink-700);
+  font-weight: 700;
+}
+
+.sop-meta-item dd {
+  margin: 0;
+  font-weight: 600;
+}
+
+.sop-card h2 {
+  margin: 0 0 0.75rem;
+  font-size: 1.06rem;
+  color: #173d5f;
+}
+
+.sop-card h3 {
+  margin: 1rem 0 0.55rem;
+  font-size: 0.94rem;
+  color: #1f4f76;
+}
+
+.sop-card h3:first-of-type {
+  margin-top: 0;
+}
+
+.sop-card p {
+  margin: 0;
+  line-height: 1.5;
+}
+
+.sop-card p + p {
+  margin-top: 0.65rem;
+}
+
+.sop-list {
+  margin: 0.45rem 0 0;
+  padding-left: 1.15rem;
+  display: grid;
+  gap: 0.35rem;
+}
+
+.sop-table-wrap {
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  overflow-x: auto;
+}
+
+.sop-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.sop-table th,
+.sop-table td {
+  border-bottom: 1px solid #d8eaf9;
+  padding: 0.55rem;
+  text-align: left;
+  vertical-align: top;
+}
+
+.sop-table th {
+  background: linear-gradient(180deg, #f3faff 0%, #e9f5ff 100%);
+  color: var(--ink-700);
+  font-size: 0.82rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.sop-table tr:last-child td {
+  border-bottom: 0;
+}
+
+.sop-note {
+  margin-top: 0.7rem;
+  border-left: 3px solid #6fbdf3;
+  background: #f4fbff;
+  padding: 0.55rem 0.7rem;
+  color: #244965;
+  border-radius: 0 8px 8px 0;
+}
+
+.sop-link-list {
+  list-style: none;
+  margin: 0.15rem 0 0;
+  padding: 0;
+  display: grid;
+  gap: 0.45rem;
+}
+
+.sop-link-list a {
+  color: #0f5f95;
+  font-weight: 600;
+}
+
+.sop-signoff-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.7rem;
+}
+
+.sop-signoff-card {
+  border: 1px solid #c5e1f5;
+  border-radius: 10px;
+  padding: 0.65rem;
+  background: linear-gradient(180deg, #ffffff 0%, #f6fbff 100%);
+  min-height: 8rem;
+}
+
+.sop-signoff-label {
+  margin: 0;
+  font-size: 0.78rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--ink-700);
+  font-weight: 700;
+}
+
+.sop-signoff-line {
+  margin-top: 1.7rem;
+  border-top: 1px solid #7ea2c0;
+  padding-top: 0.3rem;
+  font-size: 0.82rem;
+}
+
+.sop-muted {
+  color: #3e607e;
+}
+
+.sop-small {
+  font-size: 0.84rem;
+}
+
 @media (max-width: 900px) {
   .grid--two,
-  .summary-grid {
+  .summary-grid,
+  .sop-meta-grid,
+  .sop-signoff-grid {
     grid-template-columns: 1fr;
   }
 
