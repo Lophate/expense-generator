@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Expense Report Generator</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <header class="hero">
+        <p class="hero__eyebrow">Finance Tools</p>
+        <h1>Expense Report Generator</h1>
+        <p class="hero__subtext">
+          Build clear, printable, and export-ready expense reports with automatic totals.
+        </p>
+      </header>
+
+      <main class="layout">
+        <section class="card" aria-labelledby="report-details-heading">
+          <div class="card__header">
+            <h2 id="report-details-heading">Report Details</h2>
+          </div>
+          <div class="grid grid--two">
+            <label class="field">
+              <span>Employee Name</span>
+              <input type="text" id="employeeName" placeholder="Jordan Lee" />
+            </label>
+            <label class="field">
+              <span>Department</span>
+              <input type="text" id="department" placeholder="Operations" />
+            </label>
+            <label class="field">
+              <span>Manager</span>
+              <input type="text" id="manager" placeholder="Avery Stone" />
+            </label>
+            <label class="field">
+              <span>Purpose</span>
+              <input type="text" id="purpose" placeholder="Client meeting in Seattle" />
+            </label>
+            <label class="field">
+              <span>Start Date</span>
+              <input type="date" id="startDate" />
+            </label>
+            <label class="field">
+              <span>End Date</span>
+              <input type="date" id="endDate" />
+            </label>
+            <label class="field">
+              <span>Currency</span>
+              <select id="currency">
+                <option value="USD" selected>USD ($)</option>
+                <option value="EUR">EUR (€)</option>
+                <option value="GBP">GBP (£)</option>
+                <option value="CAD">CAD (C$)</option>
+              </select>
+            </label>
+            <label class="field">
+              <span>Mileage Rate</span>
+              <input type="number" id="mileageRate" value="0.67" min="0" step="0.01" />
+            </label>
+          </div>
+        </section>
+
+        <section class="card" aria-labelledby="line-items-heading">
+          <div class="card__header card__header--actions">
+            <h2 id="line-items-heading">Line Items</h2>
+            <div class="button-row">
+              <button type="button" id="addRowBtn" class="btn btn--secondary">Add Item</button>
+            </div>
+          </div>
+
+          <div class="table-wrap">
+            <table id="expenseTable" class="expense-table">
+              <thead>
+                <tr>
+                  <th>Date</th>
+                  <th>Category</th>
+                  <th>Description</th>
+                  <th class="numeric">Amount</th>
+                  <th class="numeric">Miles</th>
+                  <th class="numeric">Mileage</th>
+                  <th class="numeric">Total</th>
+                  <th>Receipt</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody id="expenseRows"></tbody>
+            </table>
+          </div>
+
+          <div class="summary-grid">
+            <article class="summary-card">
+              <h3>Totals</h3>
+              <dl>
+                <div>
+                  <dt>Base Expenses</dt>
+                  <dd id="baseTotal">$0.00</dd>
+                </div>
+                <div>
+                  <dt>Mileage</dt>
+                  <dd id="mileageTotal">$0.00</dd>
+                </div>
+                <div class="total-row">
+                  <dt>Grand Total</dt>
+                  <dd id="grandTotal">$0.00</dd>
+                </div>
+              </dl>
+            </article>
+
+            <article class="summary-card">
+              <h3>By Category</h3>
+              <ul id="categoryBreakdown" class="breakdown"></ul>
+            </article>
+          </div>
+        </section>
+
+        <section class="card" aria-labelledby="actions-heading">
+          <div class="card__header">
+            <h2 id="actions-heading">Actions</h2>
+          </div>
+          <div class="button-row button-row--wrap">
+            <button type="button" id="saveJsonBtn" class="btn">Save JSON</button>
+            <button type="button" id="loadJsonBtn" class="btn btn--secondary">Load JSON</button>
+            <button type="button" id="exportCsvBtn" class="btn">Export CSV</button>
+            <button type="button" id="printBtn" class="btn btn--primary">Print Report + Receipts</button>
+            <input id="jsonFileInput" type="file" accept="application/json" hidden />
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <section id="printReport" class="print-report" aria-label="Printable expense report"></section>
+
+    <template id="rowTemplate">
+      <tr>
+        <td>
+          <input type="date" class="row-date" />
+        </td>
+        <td>
+          <select class="row-category">
+            <option value="Lodging">Lodging</option>
+            <option value="Meals">Meals</option>
+            <option value="Transportation">Transportation</option>
+            <option value="Mileage">Mileage</option>
+            <option value="Office Supplies">Office Supplies</option>
+            <option value="Other">Other</option>
+          </select>
+        </td>
+        <td>
+          <input type="text" class="row-description" placeholder="Description" />
+        </td>
+        <td>
+          <input type="number" class="row-amount" min="0" step="0.01" value="0" />
+        </td>
+        <td>
+          <input type="number" class="row-miles" min="0" step="0.1" value="0" />
+        </td>
+        <td class="numeric row-mileage-total">$0.00</td>
+        <td class="numeric row-total">$0.00</td>
+        <td>
+          <div class="receipt-controls">
+            <input
+              type="file"
+              class="row-receipt-file"
+              accept="image/*,application/pdf"
+              hidden
+            />
+            <button type="button" class="btn btn--secondary btn--tiny row-receipt-upload">
+              Attach
+            </button>
+            <button type="button" class="btn btn--tiny row-receipt-view" disabled>View</button>
+            <button type="button" class="btn btn--tiny row-receipt-scan" disabled>Scan</button>
+            <span class="row-receipt-name">No file</span>
+            <span class="row-receipt-status" data-state="muted">Attach a file to scan.</span>
+          </div>
+        </td>
+        <td>
+          <button type="button" class="icon-btn row-remove" aria-label="Remove expense row">
+            Remove
+          </button>
+        </td>
+      </tr>
+    </template>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
+    <script src="script.js"></script>
+  </body>
+</html>
